@@ -4,11 +4,12 @@ description: Demonstrates how to use the camera plugin.
 dependencies:
   camera:
     path: ../
-  path_provider: ^0.5.0
+  path_provider: ^1.5.1
   flutter:
     sdk: flutter
   video_player: ^0.10.0
   e2e: "^0.2.0"
+  audioplayers: ^0.14.2
 
 dev_dependencies:
   flutter_test:
@@ -19,6 +20,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/Guiton_Sketch.mp3
 
 environment:
   sdk: ">=2.0.0-dev.28.0 <3.0.0"

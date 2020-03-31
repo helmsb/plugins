@@ -7,6 +7,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,11 +45,19 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
+  AudioPlayer audioPlayer = AudioPlayer();
+  AudioCache audioCache = AudioCache();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  playLocal() async {
+    File audiofile = await audioCache.load('Guiton_Sketch.mp3');
+    await audioPlayer.play(audiofile.path,
+        isLocal: true, stayAwake: true, respectSilence: true);
   }
 
   @override
@@ -321,6 +331,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
       if (filePath != null) showInSnackBar('Saving video to $filePath');
+
+      playLocal();
     });
   }
 
@@ -350,7 +362,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
       showInSnackBar('Error: select a camera first.');
       return null;
     }
-
     final Directory extDir = await getApplicationDocumentsDirectory();
     final String dirPath = '${extDir.path}/Movies/flutter_test';
     await Directory(dirPath).create(recursive: true);
@@ -382,7 +393,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
       _showCameraException(e);
       return null;
     }
-
+    await audioPlayer.stop();
     await _startVideoPlayer();
   }
 
