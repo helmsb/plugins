@@ -371,17 +371,17 @@ public class Camera {
       recordingVideo = false;
 
       try {
-  Camera.this.cameraCaptureSession.stopRepeating();
-  Camera.this.cameraCaptureSession.abortCaptures();
-} catch (CameraAccessException e) {
-  result.error("cameraException", e.getMessage(), null);
-} 
+        Camera.this.cameraCaptureSession.stopRepeating();
+        Camera.this.cameraCaptureSession.abortCaptures();
+          } catch (CameraAccessException e) {
+            result.error("cameraException", e.getMessage(), null);
+          } 
 
       mediaRecorder.stop();
       mediaRecorder.reset();
-      startPreview();
+      //startPreview();
       result.success(null);
-    } catch (CameraAccessException | IllegalStateException e) {
+    } catch ( IllegalStateException e) {
       result.error("videoRecordingFailed", e.getMessage(), null);
     }
   }
